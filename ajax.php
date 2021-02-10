@@ -48,7 +48,7 @@ if (\count($errors) === 0) {
             }
 
             $data['LIST'] = $list;
-            $data['USER_ID'] = $USER->GetID();
+            $data['USER_ID'] = ($USER->GetID()) ? $USER->GetID() : session_id();
 
             break;
 
@@ -60,7 +60,7 @@ if (\count($errors) === 0) {
             }
 
             $data['LIST'] = $list;
-            $data['USER_ID'] = $USER->GetID();
+            $data['USER_ID'] = ($USER->GetID()) ? $USER->GetID() : session_id();
 
             break;
 
@@ -68,7 +68,7 @@ if (\count($errors) === 0) {
 
             global $USER;
 
-            $data['USER_ID'] = $USER->GetID();
+            $data['USER_ID'] = ($USER->GetID()) ? $USER->GetID() : session_id();
 
             break;
 
