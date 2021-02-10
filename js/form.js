@@ -60,7 +60,7 @@ var FormReBuild = (function () {
 })();
 
 jQuery(function () {
-    FormReBuild.getUserId();
+    // FormReBuild.getUserId();
     FormReBuild.getList();
 });
 'use strict';
