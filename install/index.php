@@ -262,11 +262,11 @@ Class Vkolesnev_FormEvent extends \CModule
     {
         global $DB, $USER;
         $DB->PrepareFields("b_vkolesnev_formevent_event_by_user");
-        $user = ($USER->GetID()) ? $USER->GetID() : session_id();
+        $user = $_SESSION['fixed_session_id'];
         $arFields = array(
             "CREATED_AT" => $DB->GetNowFunction(),
             "EVENT_TYPE" => "'" . trim($event) . "'",
-            "USER_ID" => "'" . trim($user) . "'"
+            "USER_ID" => "'" . $user . "'"
         );
         $DB->StartTransaction();
         $ID = $DB->Insert("b_vkolesnev_formevent_event_by_user", $arFields, $err_mess . __LINE__);

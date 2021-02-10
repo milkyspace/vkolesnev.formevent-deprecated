@@ -34,7 +34,7 @@ var FormReBuild = (function () {
                             let sent = false;
                             jQuery.each(bitrixEvents.LIST, function (i, bitrixEvent) {
                                 if(bitrixEvent.EVENT_TYPE === eventName &&
-                                    parseInt(bitrixEvent.USER_ID) === parseInt(userId) ){
+                                    bitrixEvent.USER_ID === userId ){
                                     sent = true;
                                 }
                             });
@@ -120,12 +120,10 @@ var FormReBuild = (function () {
     };
 
     return {
-        getUserId: getUserId,
         getList: getList
     };
 })();
 
 jQuery(function () {
-    FormReBuild.getUserId();
     FormReBuild.getList();
 });

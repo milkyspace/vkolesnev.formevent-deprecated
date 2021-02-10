@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS `b_vkolesnev_formevent_event_by_user` (
     `ID`         INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `USER_ID`    INT(18)          NULL,
+    `USER_ID`    VARCHAR(255)          NULL,
     `EVENT_TYPE`   VARCHAR(255)     NULL,
     `CREATED_AT` TIMESTAMP        NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
