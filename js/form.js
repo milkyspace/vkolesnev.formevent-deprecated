@@ -28,7 +28,7 @@ var FormReBuild = (function () {
                     button.click(function () {
                         form.attr('form-event', event);
                     });
-                    let userId = this.getUserId();
+                    let userId = FormReBuild.getUserId();
                     form.submit(function () {
                         let $thisForm = jQuery(this);
                         FormEvent.getBitrixEvents().then(function (bitrixEvents) {
