@@ -31,8 +31,15 @@ var FormReBuild = (function () {
                         FormEvent.getBitrixEvents().then(function (bitrixEvents) {
                             let formEvent = $thisForm.attr('form-event');
 
-                            if(bitrixEvents.LIST.EVENT_TYPE === eventName &&
-                                parseInt(bitrixEvents.LIST.USER_ID) === parseInt(userId) ){
+                            let sent = false;
+                            jQuery.each(bitrixEvents.LIST, function (i, bitrixEvent) {
+                                if(bitrixEvent.EVENT_TYPE === eventName &&
+                                    parseInt(bitrixEvent.USER_ID) === parseInt(userId) ){
+                                    sent = true;
+                                }
+                            });
+
+                            if(sent){
                                 console.log(`add event ${formEvent}`);
                                 dataLayer.push({'event': formEvent});
                             } else{

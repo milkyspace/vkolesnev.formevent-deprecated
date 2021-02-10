@@ -54,9 +54,12 @@ if (\count($errors) === 0) {
 
         case 'GETBITRIXEVENTS':
 
-            $bitrixEvents = $DB->Query('SELECT * FROM b_vkolesnev_formevent_event_by_user ORDER BY CREATED_AT DESC LIMIT 1')->GetNext();
+            $bitrixEvents = $DB->Query('SELECT * FROM b_vkolesnev_formevent_event_by_user ORDER BY CREATED_AT DESC LIMIT 1');
+            while ($arEvent = $bitrixEvents->Fetch()) {
+                $list[] = $arEvent;
+            }
 
-            $data['LIST'] = $bitrixEvents;
+            $data['LIST'] = $list;
             $data['USER_ID'] = $USER->GetID();
 
             break;
