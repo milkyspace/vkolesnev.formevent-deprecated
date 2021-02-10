@@ -14,7 +14,7 @@ Class Vkolesnev_FormEvent extends \CModule
 
     var $errors;
 
-    const MODULE_ID = 'vkolesnev.formevent';
+    const MODULE_ID = 'pwd.formevent';
     const MODULE_NAME = 'События для форм';
     const MODULE_DESCRIPTION = 'События для форм';
 
@@ -23,7 +23,7 @@ Class Vkolesnev_FormEvent extends \CModule
     public $MODULE_DESCRIPTION = self::MODULE_DESCRIPTION;
     public $MODULE_VERSION = '1.0.0';
     public $MODULE_VERSION_DATE = '20.01.2020';
-    public $PARTNER_NAME = 'vkolesnev';
+    public $PARTNER_NAME = 'PWD';
 
     private static function isLocal()
     {
