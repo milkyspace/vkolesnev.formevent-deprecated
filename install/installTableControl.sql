@@ -5,8 +5,4 @@ CREATE TABLE IF NOT EXISTS `b_vkolesnev_formevent_event_by_user` (
     `CREATED_AT` TIMESTAMP        NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     PRIMARY KEY (`ID`),
-
-    FOREIGN KEY (`USER_ID`) REFERENCES `b_user` (`ID`)
-        ON UPDATE CASCADE
-        ON DELETE CASCADE
 );
