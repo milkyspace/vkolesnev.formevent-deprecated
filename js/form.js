@@ -30,11 +30,11 @@ var FormReBuild = (function () {
                     });
                     form.submit(function () {
                         let $thisForm = jQuery(this);
+                        let userId = this.getUserId();
                         FormEvent.getBitrixEvents().then(function (bitrixEvents) {
                             let formEvent = $thisForm.attr('form-event');
 
                             let sent = false;
-                            let userId = this.getUserId();
                             jQuery.each(bitrixEvents.LIST, function (i, bitrixEvent) {
                                 console.log(bitrixEvent)
                                 if(bitrixEvent.EVENT_TYPE === eventName &&
