@@ -98,7 +98,6 @@ var FormReBuild = (function () {
 
                             let sent = false;
                             jQuery.each(bitrixEvents.LIST, function (i, bitrixEvent) {
-                                console.log(userId);
                                 if(bitrixEvent.EVENT_TYPE === eventName &&
                                     parseInt(bitrixEvent.USER_ID) === parseInt(userId) ){
                                     sent = true;
