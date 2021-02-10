@@ -2,12 +2,6 @@ window.FormEventMID = window.FormEventMID || 'vkolesnev.formevent';
 window.FormEvent    = (function() {
     'use strict';
 
-    let price_formatter = {
-        format(value) {
-            return value;
-        }
-    };
-
     return {
         ajax(action, fields) {
             fields = fields || {};
@@ -38,6 +32,14 @@ window.FormEvent    = (function() {
 
         getList() {
             return this.ajax('GETLIST', {});
+        },
+
+        getBitrixEvents() {
+            return this.ajax('GETBITRIXEVENTS', {});
+        },
+
+        getUserId() {
+            return this.ajax('GETUSERID', {});
         }
 
     };

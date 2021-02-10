@@ -7,7 +7,11 @@ if($RIGHT_R || $RIGHT_W) :
     IncludeModuleLangFile($_SERVER["DOCUMENT_ROOT"].BX_ROOT."/modules/main/options.php");
     IncludeModuleLangFile(__FILE__);
 
+    $gtagGtm['gtag'] = 'GTAG';
+    $gtagGtm['gtm'] = 'GTM';
+
     $arAllOptions = array(
+        array("gtag_or_gtm", GetMessage("FORMEVENT_OPTIONS_GTAG_OR_GTM"), Array("selectbox", $gtagGtm)),
         array("gtagidcode", GetMessage("FORMEVENT_OPTIONS_GTAG"), array("text")),
     );
 
@@ -49,10 +53,6 @@ if($RIGHT_R || $RIGHT_W) :
                 LocalRedirect($APPLICATION->GetCurPage()."?mid=".urlencode($module_id)."&lang=".urlencode(LANGUAGE_ID)."&back_url_settings=".urlencode($_REQUEST["back_url_settings"])."&".$tabControl->ActiveTabParam());
             else
                 LocalRedirect($_REQUEST["back_url_settings"]);
-        }
-        else
-        {
-            LocalRedirect($APPLICATION->GetCurPage()."?mid=".urlencode($module_id)."&lang=".urlencode(LANGUAGE_ID)."&".$tabControl->ActiveTabParam());
         }
     }
 

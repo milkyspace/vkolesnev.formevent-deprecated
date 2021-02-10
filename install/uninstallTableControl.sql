@@ -1,0 +1,1 @@
+DROP TABLE IF EXISTS `b_vkolesnev_formevent_event_by_user`;

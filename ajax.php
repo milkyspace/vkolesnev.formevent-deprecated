@@ -3,18 +3,19 @@
  * @var \CMain $APPLICATION
  * @var \CUser $USER
  */
+
 use Bitrix\Main\Loader;
 use Bitrix\Main\LoaderException;
 use Bitrix\Highloadblock as HL;
 use Bitrix\Highloadblock\HighloadBlockTable;
 
-global $APPLICATION, $USER, $BASKET;
+global $APPLICATION, $USER, $DB;
 
 if (!\defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
     die();
 }
 
-$data   = [];
+$data = [];
 $errors = [];
 
 if (\count($errors) === 0) {
@@ -42,11 +43,29 @@ if (\count($errors) === 0) {
                 "filter" => array()
             ));
 
-            while($arData = $rsData->Fetch()){
+            while ($arData = $rsData->Fetch()) {
                 $list[] = $arData;
             }
 
             $data['LIST'] = $list;
+            $data['USER_ID'] = $USER->GetID();
+
+            break;
+
+        case 'GETBITRIXEVENTS':
+
+            $bitrixEvents = $DB->Query('SELECT * FROM b_vkolesnev_formevent_event_by_user ORDER BY CREATED_AT DESC LIMIT 1')->GetNext();
+
+            $data['LIST'] = $bitrixEvents;
+            $data['USER_ID'] = $USER->GetID();
+
+            break;
+
+        case 'GETUSERID':
+
+            global $USER;
+
+            $data['USER_ID'] = $USER->GetID();
 
             break;
 
@@ -57,6 +76,6 @@ if (\count($errors) === 0) {
 
 echo \json_encode([
     'SUCCESS' => count($errors) === 0,
-    'ERRORS'  => $errors,
-    'DATA'    => $data,
+    'ERRORS' => $errors,
+    'DATA' => $data,
 ]);

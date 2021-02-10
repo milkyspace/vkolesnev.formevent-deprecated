@@ -40,6 +40,7 @@ Class Vkolesnev_FormEvent extends \CModule
         $this->InstallEvents();
         $this->InstallFiles();
         $this->InstallHL();
+        $this->InstallTableControl();
         ModuleManager::RegisterModule("vkolesnev.formevent");
         return true;
     }
@@ -53,6 +54,7 @@ Class Vkolesnev_FormEvent extends \CModule
         $this->UnInstallEvents();
         $this->UnInstallFiles();
         $this->UnInstallHL();
+        $this->UnInstallTableControl();
         ModuleManager::UnRegisterModule("vkolesnev.formevent");
         return true;
     }
@@ -130,6 +132,26 @@ Class Vkolesnev_FormEvent extends \CModule
                         'ru' => 'Событие',
                         'en' => 'Event',
                     ]
+                ],
+                [
+                    'ENTITY_ID' => 'HLBLOCK_' . $id,
+                    'FIELD_NAME' => 'UF_EVENT_NAME',
+                    'USER_TYPE_ID' => 'string',
+                    'MULTIPLE' => 'N',
+                    'MANDATORY' => 'N',
+                    'SHOW_FILTER' => 'I',
+                    'EDIT_FORM_LABEL' => [
+                        'ru' => 'Тип события Битрикс',
+                        'en' => 'Event',
+                    ],
+                    'LIST_COLUMN_LABEL' => [
+                        'ru' => 'Тип события Битрикс',
+                        'en' => 'Event',
+                    ],
+                    'LIST_FILTER_LABEL' => [
+                        'ru' => 'Тип события Битрикс',
+                        'en' => 'Event',
+                    ]
                 ]
 
             ];
@@ -145,6 +167,12 @@ Class Vkolesnev_FormEvent extends \CModule
         }
     }
 
+    public function InstallTableControl()
+    {
+        global $DB;
+        $DB->RunSQLBatch(__DIR__ . '/installTableControl.sql');
+    }
+
     public function UnInstallHL()
     {
         $hlblock = HighloadBlockTable::getList([
@@ -152,6 +180,12 @@ Class Vkolesnev_FormEvent extends \CModule
         ])->fetch()['ID'];
 
         HighloadBlockTable::delete($hlblock);
+    }
+
+    public function UnInstallTableControl()
+    {
+        global $DB;
+        $DB->RunSQLBatch(__DIR__ . '/uninstallTableControl.sql');
     }
 
     public function InstallDB()
@@ -166,6 +200,7 @@ Class Vkolesnev_FormEvent extends \CModule
     {
         \RegisterModuleDependences('main', 'OnBeforeProlog', $this->MODULE_ID, __CLASS__, 'OnBeforeProlog');
         \RegisterModuleDependences("main", "OnBuildGlobalMenu", $this->MODULE_ID, __CLASS__, "DoBuildGlobalMenu");
+        \RegisterModuleDependences("main", "OnBeforeEventAdd", $this->MODULE_ID, __CLASS__, "OnBeforeEventAddHandler");
 
         return true;
     }
@@ -223,6 +258,20 @@ Class Vkolesnev_FormEvent extends \CModule
         ];
     }
 
+    public static function OnBeforeEventAddHandler(&$event, &$lid, &$arFields)
+    {
+        global $DB, $USER;
+        $DB->PrepareFields("b_vkolesnev_formevent_event_by_user");
+        $arFields = array(
+            "CREATED_AT" => $DB->GetNowFunction(),
+            "EVENT_TYPE" => "'" . trim($event) . "'",
+            "USER_ID" => "'" . trim($USER->GetID()) . "'"
+        );
+        $DB->StartTransaction();
+        $ID = $DB->Insert("b_vkolesnev_formevent_event_by_user", $arFields, $err_mess . __LINE__);
+        $DB->Commit();
+    }
+
     public static function OnBeforeProlog()
     {
         global $APPLICATION;
@@ -250,8 +299,12 @@ Class Vkolesnev_FormEvent extends \CModule
         $style = \preg_replace('#//+#', '/', "/{$dir}/css/style.css");
         $str = '<link rel="stylesheet" type="text/css" href="' . $style . '">';
         $obAsset = Asset::getInstance()->addString($str);
-        $gtagId = \COption::GetOptionString(self::MODULE_ID, 'gtagidcode');
-        $gtag = "<!-- Global site tag (gtag.js) - Google Analytics -->
+
+        $gtagOrGtm = \COption::GetOptionString(self::MODULE_ID, 'gtag_or_gtm');
+
+        if ($gtagOrGtm === 'gtag') {
+            $gtagId = \COption::GetOptionString(self::MODULE_ID, 'gtagidcode');
+            $gtag = "<!-- Global site tag (gtag.js) - Google Analytics -->
                 <script async src=\"https://www.googletagmanager.com/gtag/js?id=" . $gtagId . "\"></script>
                 <script>
                     window.dataLayer = window.dataLayer || [];
@@ -263,6 +316,7 @@ Class Vkolesnev_FormEvent extends \CModule
                     gtag('js', new Date());
                     gtag('config', '" . $gtagId . "');
                 </script>";
-        $obAsset = Asset::getInstance()->addString($gtag);
+            $obAsset = Asset::getInstance()->addString($gtag);
+        }
     }
 }
