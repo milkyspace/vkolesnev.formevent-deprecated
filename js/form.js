@@ -5,10 +5,15 @@ var FormReBuild = (function () {
 
     var getUserId = function () {
         let userId;
-        FormEvent.getUserId().then(function (result) {
-            userId = result.USER_ID;
+        userId = FormEvent.getUserId().then(function (result) {
+            return result.USER_ID;
         });
         return userId;
+    };
+
+    var user = function (id) {
+        let userId;
+        this.userId = id;
     };
 
     var getList = function () {
