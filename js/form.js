@@ -31,7 +31,6 @@ var FormReBuild = (function () {
                         console.log('form submit');
                         let $thisForm = jQuery(this);
                         FormEvent.getBitrixEvents().then(function (bitrixEvents) {
-                            console.log(bitrixEvents);
                             let formEvent = $thisForm.attr('form-event');
 
                             let sent = false;
