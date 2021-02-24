@@ -20,13 +20,13 @@ var FormReBuild = (function () {
                 let forms = [];
                 let userId = result.USER_ID;
                 jQuery.each(result.LIST, function (i, rule) {
-                    form = rule.UF_FORM_SELECTOR;
+                    form = jQuery(rule.UF_FORM_SELECTOR);
                     event = rule.UF_EVENT;
                     eventName = rule.UF_EVENT_NAME;
 
                     if(rule.UF_BUTTON_SELECTOR.length) {
                         button = jQuery(rule.UF_BUTTON_SELECTOR);
-                        button.click({event: event, form: form}, function (click) {
+                        button.click({event: event, form: rule.UF_FORM_SELECTOR}, function (click) {
                             console.log(`from button event ${click.data.event} init`);
                             jQuery(form).attr('form-event', event);
                         });
