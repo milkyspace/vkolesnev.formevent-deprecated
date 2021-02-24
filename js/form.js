@@ -17,8 +17,13 @@ var FormReBuild = (function () {
                 let button;
                 let form;
                 let eventName;
+                let forms = [];
                 let userId = result.USER_ID;
                 jQuery.each(result.LIST, function (i, rule) {
+                    if (forms.indexOf(rule.UF_FORM_SELECTOR) > -1) {
+                        return;
+                    }
+                    forms.push(rule.UF_FORM_SELECTOR);
                     button = jQuery(rule.UF_BUTTON_SELECTOR);
                     form = jQuery(rule.UF_FORM_SELECTOR);
                     event = rule.UF_EVENT;
@@ -35,16 +40,16 @@ var FormReBuild = (function () {
 
                             let sent = false;
                             jQuery.each(bitrixEvents.LIST, function (i, bitrixEvent) {
-                                if(bitrixEvent.EVENT_TYPE === eventName &&
-                                    bitrixEvent.USER_ID === userId ){
+                                if (bitrixEvent.EVENT_TYPE === eventName &&
+                                    bitrixEvent.USER_ID === userId) {
                                     sent = true;
                                 }
                             });
 
-                            if(sent){
+                            if (sent) {
                                 console.log(`add event ${formEvent}`);
                                 dataLayer.push({'event': formEvent});
-                            } else{
+                            } else {
                                 console.log(`event ${formEvent} didn't sent`);
                             }
 
