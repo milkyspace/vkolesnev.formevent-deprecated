@@ -27,7 +27,6 @@ var FormReBuild = (function () {
                     if(rule.UF_BUTTON_SELECTOR.length) {
                         button = jQuery(rule.UF_BUTTON_SELECTOR);
                         button.click({event: event}, function (click) {
-                            console.log(click.data);
                             console.log(`from button event ${click.data.event} init`);
                             form.attr('form-event', event);
                         });
