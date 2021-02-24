@@ -26,6 +26,7 @@ var FormReBuild = (function () {
                     eventName = rule.UF_EVENT_NAME;
 
                     console.log(rule.UF_BUTTON_SELECTOR.length)
+                    console.log(event)
                     if(rule.UF_BUTTON_SELECTOR.length) {
                         button.click(function () {
                             console.log(`from button event ${event} init`);
