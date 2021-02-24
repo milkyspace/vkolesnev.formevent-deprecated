@@ -260,9 +260,9 @@ Class Vkolesnev_FormEvent extends \CModule
 
     public static function OnBeforeEventAddHandler(&$event, &$lid, &$arFields)
     {
-        global $DB, $USER;
+        global $DB;
         $DB->PrepareFields("b_vkolesnev_formevent_event_by_user");
-        $user = $_SESSION['fixed_session_id'];
+        $user = $_SESSION['BX_SESSION_SIGN'];
         $arFields = array(
             "CREATED_AT" => $DB->GetNowFunction(),
             "EVENT_TYPE" => "'" . trim($event) . "'",
