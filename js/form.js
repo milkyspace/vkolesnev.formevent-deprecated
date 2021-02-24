@@ -20,10 +20,6 @@ var FormReBuild = (function () {
                 let forms = [];
                 let userId = result.USER_ID;
                 jQuery.each(result.LIST, function (i, rule) {
-                    if (forms.indexOf(rule.UF_FORM_SELECTOR) > -1) {
-                        return;
-                    }
-                    forms.push(rule.UF_FORM_SELECTOR);
                     button = jQuery(rule.UF_BUTTON_SELECTOR);
                     form = jQuery(rule.UF_FORM_SELECTOR);
                     event = rule.UF_EVENT;
@@ -32,6 +28,12 @@ var FormReBuild = (function () {
                         console.log(`event ${event} init`);
                         form.attr('form-event', event);
                     });
+
+                    if (forms.indexOf(rule.UF_FORM_SELECTOR) > -1) {
+                        return;
+                    }
+                    forms.push(rule.UF_FORM_SELECTOR);
+
                     form.submit(function () {
                         console.log('form submit');
                         let $thisForm = jQuery(this);
