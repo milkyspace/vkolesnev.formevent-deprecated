@@ -25,7 +25,7 @@ var FormReBuild = (function () {
                     event = rule.UF_EVENT;
                     eventName = rule.UF_EVENT_NAME;
 
-                    console.log(rule.UF_BUTTON_SELECTOR.length)
+                    console.log(button)
 
                     if(rule.UF_BUTTON_SELECTOR.length) {
                         console.log(event)
@@ -34,8 +34,8 @@ var FormReBuild = (function () {
                             form.attr('form-event', event);
                         });
                     } else{
-                        // console.log(`event ${event} init`);
-                        // form.attr('form-event', event)
+                        console.log(`event ${event} init`);
+                        form.attr('form-event', event)
                     }
 
                     if (forms.indexOf(rule.UF_FORM_SELECTOR) > -1) {
