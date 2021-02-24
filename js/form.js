@@ -24,10 +24,16 @@ var FormReBuild = (function () {
                     form = jQuery(rule.UF_FORM_SELECTOR);
                     event = rule.UF_EVENT;
                     eventName = rule.UF_EVENT_NAME;
-                    button.click(function () {
+
+                    if(rule.UF_BUTTON_SELECTOR.length) {
+                        button.click(function () {
+                            console.log(`event ${event} init`);
+                            form.attr('form-event', event);
+                        });
+                    } else{
                         console.log(`event ${event} init`);
-                        form.attr('form-event', event);
-                    });
+                        form.attr('form-event', event)
+                    }
 
                     if (forms.indexOf(rule.UF_FORM_SELECTOR) > -1) {
                         return;
