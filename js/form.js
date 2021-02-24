@@ -28,8 +28,10 @@ var FormReBuild = (function () {
                         form.attr('form-event', event);
                     });
                     form.submit(function () {
+                        console.log('form submit');
                         let $thisForm = jQuery(this);
                         FormEvent.getBitrixEvents().then(function (bitrixEvents) {
+                            console.log(bitrixEvents);
                             let formEvent = $thisForm.attr('form-event');
 
                             let sent = false;
@@ -61,7 +63,6 @@ var FormReBuild = (function () {
 })();
 
 jQuery(function () {
-    console.log('dd');
     // FormReBuild.getUserId();
     FormReBuild.getList();
 });
