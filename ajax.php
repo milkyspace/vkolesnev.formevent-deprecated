@@ -12,73 +12,77 @@ use Bitrix\Highloadblock\HighloadBlockTable;
 global $APPLICATION, $USER, $DB;
 
 if (!\defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
-    die();
+	die();
 }
 
 $data = [];
 $errors = [];
 
 if (\count($errors) === 0) {
-    switch ($_POST['ACTION']) {
-        case 'GETLIST':
+	switch ($_POST['ACTION']) {
+		case 'GETLIST':
 
-            try {
-                Loader::includeModule("highloadblock");
-            } catch (LoaderException $e) {
-            }
+			try {
+				Loader::includeModule("highloadblock");
+			} catch (LoaderException $e) {
+			}
 
-            $hlBl = HighloadBlockTable::getList([
-                'filter' => ['=NAME' => 'FormEventList']
-            ])->fetch()['ID'];
+			$hlBl = HighloadBlockTable::getList([
+				'filter' => ['=NAME' => 'FormEventList']
+			])->fetch()['ID'];
 
-            $hlBlock = HL\HighloadBlockTable::getById($hlBl)->fetch();
+			$hlBlock = HL\HighloadBlockTable::getById($hlBl)->fetch();
 
-            $entity = HL\HighloadBlockTable::compileEntity($hlBlock);
+			$entity = HL\HighloadBlockTable::compileEntity($hlBlock);
 
-            $entityDataClass = $entity->getDataClass();
+			$entityDataClass = $entity->getDataClass();
 
-            $rsData = $entityDataClass::getList(array(
-                "select" => array("*"),
-                "order" => array("ID" => "ASC"),
-                "filter" => array()
-            ));
+			$rsData = $entityDataClass::getList(array(
+				"select" => array("*"),
+				"order" => array("ID" => "ASC"),
+				"filter" => array()
+			));
 
-            while ($arData = $rsData->Fetch()) {
-                $list[] = $arData;
-            }
+			while ($arData = $rsData->Fetch()) {
+				$list[] = $arData;
+			}
 
-            $data['LIST'] = $list;
-            $data['USER_ID'] = $_SESSION['fixed_session_id'];
+			$data['LIST'] = $list;
+			$data['USER_ID'] = $_SESSION['BX_SESSION_SIGN'];
 
-            break;
+			break;
 
-        case 'GETBITRIXEVENTS':
+		case 'GETBITRIXEVENTS':
 
-            $bitrixEvents = $DB->Query('SELECT * FROM b_vkolesnev_formevent_event_by_user ORDER BY CREATED_AT DESC LIMIT 5');
-            while ($arEvent = $bitrixEvents->Fetch()) {
-                $list[] = $arEvent;
-            }
+			$userCheck = false;
+			$bitrixEvents = $DB->Query('SELECT * FROM b_vkolesnev_formevent_event_by_user ORDER BY CREATED_AT DESC LIMIT 5');
+			while ($arEvent = $bitrixEvents->Fetch()) {
+				if ($arEvent['USER_ID'] == $_SESSION['BX_SESSION_SIGN']) {
+					$userCheck = true;
+				}
+				$list[] = $arEvent;
+			}
 
-            $data['LIST'] = $list;
-            $data['USER_ID'] = $_SESSION['fixed_session_id'];
+			$data['LIST'] = $list;
+			$data['USER_CHECK'] = $userCheck;
 
-            break;
+			break;
 
-        case 'GETUSERID':
+		case 'GETUSERID':
 
-            global $USER;
+			global $USER;
 
-            $data['USER_ID'] = $_SESSION['fixed_session_id'];
+			$data['USER_ID'] = $_SESSION['BX_SESSION_SIGN'];
 
-            break;
+			break;
 
-        default:
-            $errors[] = 'Неизвестное действие';
-    }
+		default:
+			$errors[] = 'Неизвестное действие';
+	}
 }
 
 echo \json_encode([
-    'SUCCESS' => count($errors) === 0,
-    'ERRORS' => $errors,
-    'DATA' => $data,
+	'SUCCESS' => count($errors) === 0,
+	'ERRORS' => $errors,
+	'DATA' => $data,
 ]);
