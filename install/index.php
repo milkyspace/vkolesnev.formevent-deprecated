@@ -262,7 +262,7 @@ Class Vkolesnev_FormEvent extends \CModule
     {
         global $DB;
         $DB->PrepareFields("b_vkolesnev_formevent_event_by_user");
-        $user = $_SESSION['BX_SESSION_SIGN'];
+        $user = $_SESSION['REMOTE_ADDR'];
         $arFields = array(
             "CREATED_AT" => $DB->GetNowFunction(),
             "EVENT_TYPE" => "'" . trim($event) . "'",
