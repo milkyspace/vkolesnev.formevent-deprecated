@@ -28,7 +28,7 @@ var FormReBuild = (function () {
                     console.log(rule.UF_BUTTON_SELECTOR.length)
                     if(rule.UF_BUTTON_SELECTOR.length) {
                         button.click(function () {
-                            console.log(`event ${event} init`);
+                            console.log(`from button event ${event} init`);
                             form.attr('form-event', event);
                         });
                     } else{
