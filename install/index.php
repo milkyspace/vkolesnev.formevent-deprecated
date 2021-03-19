@@ -259,18 +259,18 @@ Class Vkolesnev_FormEvent extends \CModule
     }
 
     public static function OnBeforeEventAddHandler(&$event, &$lid, &$arFields)
-    {
+    {                    
         global $DB;
         $DB->PrepareFields("b_vkolesnev_formevent_event_by_user");
         $user = $_SESSION['BX_SESSION_SIGN'];
-        $arFields = array(
+        $arDBFields = array(
             "CREATED_AT" => $DB->GetNowFunction(),
             "EVENT_TYPE" => "'" . trim($event) . "'",
             "USER_ID" => "'" . $user . "'"
-        );
+        );     
         $DB->StartTransaction();
-        $ID = $DB->Insert("b_vkolesnev_formevent_event_by_user", $arFields, $err_mess . __LINE__);
-        $DB->Commit();
+        $ID = $DB->Insert("b_vkolesnev_formevent_event_by_user", $arDBFields, $err_mess . __LINE__);
+        $DB->Commit();   
     }
 
     public static function OnBeforeProlog()
